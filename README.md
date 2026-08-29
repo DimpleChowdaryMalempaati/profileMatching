@@ -170,6 +170,3 @@ Open `notebooks/rag_experimentation.ipynb` for:
 - Indexing 34 resumes: ~5–15 seconds (CPU)
 - Single job match query: ~0.5–2 seconds
 
-## License
-
-MIT — for educational assignment use.
