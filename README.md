@@ -19,26 +19,41 @@ A resume retrieval and job-matching system built with **RAG** (Retrieval-Augment
 
 ## Quick Start
 
-```bash
-# 1. Create virtual environment
+### Windows (recommended — no venv activation needed)
+
+```powershell
+cd D:\D\profileMatching
+
+# 1. Create virtual environment (first time only)
 python -m venv .venv
-.venv\Scripts\activate        # Windows
-# source .venv/bin/activate   # macOS/Linux
 
-# 2. Install dependencies
-pip install -r requirements.txt
+# 2. Install dependencies (first time only)
+.venv\Scripts\pip install -r requirements.txt
 
-# 3. Generate dataset (34 resumes + 6 job descriptions)
-python main.py generate
+# 3. Dataset is already included (34 resumes + 6 job descriptions)
+#    To regenerate: .venv\Scripts\python main.py generate
 
 # 4. Build vector index
-python main.py index --reset
+.venv\Scripts\python main.py index --reset
 
 # 5. Match a job
-python main.py match --job job_descriptions/senior_python_ml_engineer.json
+.venv\Scripts\python main.py match --job job_descriptions/senior_python_ml_engineer.json
 
-# 6. Match all jobs
-python main.py match --all --output results/all_matches.json
+# 6. Open experimentation notebook
+.venv\Scripts\jupyter notebook notebooks/rag_experimentation.ipynb
+```
+
+> **Note:** If `.venv\Scripts\activate` fails due to PowerShell policy, always use `.venv\Scripts\python` instead of `python`.
+
+### macOS / Linux
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py index --reset
+python main.py match --job job_descriptions/senior_python_ml_engineer.json
+jupyter notebook notebooks/rag_experimentation.ipynb
 ```
 
 ## Project Structure
@@ -57,9 +72,20 @@ profileMatching/
 ├── job_descriptions/       # 6 structured job descriptions
 ├── notebooks/
 │   └── rag_experimentation.ipynb
-├── DEMO_SCRIPT.md          # 3–4 min demo video script
 └── requirements.txt
 ```
+
+## What each file does
+
+| File | Purpose |
+|------|---------|
+| `main.py` | CLI — run indexing, matching, list resumes |
+| `resume_rag.py` | Chunks resumes, creates embeddings, stores in ChromaDB |
+| `job_matcher.py` | Matches job descriptions to resumes (hybrid search + scoring) |
+| `tools/resume_loader.py` | Loads/validates resume files, extracts metadata |
+| `config.py` | Paths and settings (env vars via `.env`) |
+| `scripts/generate_dataset.py` | Creates synthetic resumes and job descriptions |
+| `notebooks/rag_experimentation.ipynb` | Accuracy/latency experiments and charts |
 
 ## Output Format
 
@@ -137,10 +163,6 @@ Open `notebooks/rag_experimentation.ipynb` for:
 - Retrieval accuracy evaluation
 - Latency benchmarks
 - Hybrid vs semantic-only comparison
-
-## Demo Video
-
-See [DEMO_SCRIPT.md](DEMO_SCRIPT.md) for a 3–4 minute recording script covering setup, indexing, matching, and notebook metrics.
 
 ## Performance Notes
 

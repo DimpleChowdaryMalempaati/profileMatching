@@ -70,6 +70,9 @@ def _relative_resume_path(resume_path: str) -> str:
         return str(Path(resume_path).resolve().relative_to(PROJECT_ROOT.resolve()))
     except ValueError:
         return resume_path
+
+
+def _normalize_skill(skill: str) -> str:
     return re.sub(r"\s+", " ", skill.strip().lower())
 
 
